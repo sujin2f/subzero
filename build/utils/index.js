@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.bundles = exports.baseDirProd = exports.baseDirDev = exports.publicDir = exports.rootDir = exports.isDev = void 0;
+var environment_1 = require("./environment");
+Object.defineProperty(exports, "isDev", { enumerable: true, get: function () { return environment_1.isDev; } });
+Object.defineProperty(exports, "rootDir", { enumerable: true, get: function () { return environment_1.rootDir; } });
+Object.defineProperty(exports, "publicDir", { enumerable: true, get: function () { return environment_1.publicDir; } });
+Object.defineProperty(exports, "baseDirDev", { enumerable: true, get: function () { return environment_1.baseDirDev; } });
+Object.defineProperty(exports, "baseDirProd", { enumerable: true, get: function () { return environment_1.baseDirProd; } });
+Object.defineProperty(exports, "bundles", { enumerable: true, get: function () { return environment_1.bundles; } });
