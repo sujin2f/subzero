@@ -5,15 +5,15 @@
 
 import React from 'react'
 
-import { useTest } from 'src/frontend/hooks'
+import { useHello } from 'src/frontend/hooks'
 import { ReactChildrenProps } from 'src/types'
 
 export const Public = (props: ReactChildrenProps): JSX.Element => {
-    const test = useTest()
+    const hello = useHello()
 
     return (
         <div>
-            <div>{test ? 'true' : 'false'}</div>
+            <div>{hello}</div>
             <div>{props.children}</div>
         </div>
     )

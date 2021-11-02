@@ -14,4 +14,4 @@ export const Store = ({ children }: ReactChildrenProps): React.ReactElement => {
     )
 }
 
-export { setTest } from 'src/frontend/store/actions'
+export { setHello } from './actions'

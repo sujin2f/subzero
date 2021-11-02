@@ -5,7 +5,7 @@
 
 import { Action } from 'src/types'
 
-export const TEST = 'sujin/v1/TEST'
+export const HELLO = 'sujin/v1/HELLO'
 
 /**
  * To set pageInfo
@@ -13,8 +13,9 @@ export const TEST = 'sujin/v1/TEST'
  * @param {Partial<PageInfo>} pageInfo
  * @returns {Partial<Action>}
  */
-export const setTest = (): Partial<Action> => {
+export const setHello = (hello: string): Partial<Action> => {
     return {
-        type: TEST,
+        type: HELLO,
+        hello: hello,
     }
 }

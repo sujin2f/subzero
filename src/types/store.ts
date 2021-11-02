@@ -1,7 +1,8 @@
 export type State = {
-    test: boolean
+    hello: string
 }
 
 export type Action = {
     type: string
+    hello: string
 }

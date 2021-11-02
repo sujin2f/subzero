@@ -14,9 +14,11 @@ export const rootDir = path.resolve(__dirname, '../../')
 export const publicDir = path.resolve(rootDir, 'public')
 export const baseDirDev = path.resolve(rootDir, 'dist')
 export const baseDirProd = path.resolve(rootDir, 'build', 'frontend')
+/**
+ * Get the bundle folder
+ * @return {string[]}
+ */
 export const bundles = (): string[] => {
-    const dir = isDev()
-        ? path.resolve(baseDirDev, 'static', 'js')
-        : path.resolve(baseDirProd, 'static', 'js')
+    const dir = path.resolve(baseDirDev, 'static', 'js')
     return fs.readdirSync(dir).filter((file: string) => !file.endsWith('.map'))
 }
