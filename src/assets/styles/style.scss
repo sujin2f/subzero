@@ -1,7 +1,3 @@
-@import '~foundation-sites/scss/foundation';
-
-@include foundation-global-styles;
-@include foundation-forms;
-@include foundation-typography;
-@include foundation-flex-grid;
-@include foundation-visibility-classes;
+body {
+    background-color: #ccccd4;
+}

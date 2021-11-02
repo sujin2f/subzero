@@ -14,4 +14,9 @@ export const Store = ({ children }: ReactChildrenProps): React.ReactElement => {
     )
 }
 
-export { setHello } from './actions'
+export {
+    setHello,
+    getItemsInit,
+    getItemsSuccess,
+    getItemsFail,
+} from './actions'

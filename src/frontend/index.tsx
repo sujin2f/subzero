@@ -11,13 +11,11 @@ ReactDOM.render(
     <React.StrictMode>
         <Router>
             <Store>
-                <Public>
-                    <Switch>
-                        <Route exact={true} path="/">
-                            Hello World
-                        </Route>
-                    </Switch>
-                </Public>
+                <Switch>
+                    <Route exact={true} path="/">
+                        <Public />
+                    </Route>
+                </Switch>
             </Store>
         </Router>
     </React.StrictMode>,

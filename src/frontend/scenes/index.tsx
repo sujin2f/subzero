@@ -5,16 +5,34 @@
 
 import React from 'react'
 
-import { useHello } from 'src/frontend/hooks'
-import { ReactChildrenProps } from 'src/types'
+import { useItems } from 'src/frontend/hooks'
 
-export const Public = (props: ReactChildrenProps): JSX.Element => {
-    const hello = useHello()
+export const Public = (): JSX.Element => {
+    const items = useItems()
 
     return (
-        <div>
-            <div>{hello}</div>
-            <div>{props.children}</div>
-        </div>
+        <table>
+            <tbody>
+                {items &&
+                    items.map((item, index) => {
+                        const expire = new Date(item.expire)
+                        return (
+                            <tr key={`${item.expire}-${item.title}`}>
+                                <td>
+                                    {index % 2 === 0
+                                        ? expire.toDateString()
+                                        : item.title}
+                                </td>
+                                <td></td>
+                                <td>
+                                    {index % 2 === 0
+                                        ? item.title
+                                        : expire.toDateString()}
+                                </td>
+                            </tr>
+                        )
+                    })}
+            </tbody>
+        </table>
     )
 }
