@@ -6,11 +6,10 @@ export {
     baseDirProd,
     bundles,
 } from './environment'
+export { addZero } from './datetime'
 
 export { mongoConnect } from './mongo/connect'
-export { getHello } from './mongo/hello'
-export { getItems } from './mongo/items'
 
 export { graphqlClient } from './graphql/client'
 export { hello } from './graphql/hello'
-export { items } from './graphql/item'
+export { getItems, createItem, removeItem } from './graphql/item'

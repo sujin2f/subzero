@@ -6,21 +6,26 @@ import express from 'express'
 import { graphqlHTTP } from 'express-graphql'
 import { buildSchema } from 'graphql'
 
-import { hello, items } from 'src/utils/'
+import { hello, getItems, createItem, removeItem } from 'src/utils/'
 
 const apiRouter = express.Router()
 const schema = buildSchema(`
     scalar Date
     type Query {
         hello: Hello
-        items: [Item]
+        getItems: [Item]
     },
+    type Mutation {
+        createItem(title: String!, expiration: Date!): Boolean
+        removeItem(_id: String!): Boolean
+    }
     type Hello {
         title: String
     },
     type Item {
+        _id: String
         title: String
-        expire: Date
+        expiration: Date
     },
 `)
 
@@ -30,7 +35,9 @@ apiRouter.use(
         schema,
         rootValue: {
             hello,
-            items,
+            getItems,
+            createItem,
+            removeItem,
         },
         graphiql: true,
     }),

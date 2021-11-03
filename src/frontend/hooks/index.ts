@@ -10,7 +10,7 @@ import {
     getItemsInit,
     getItemsFail,
 } from 'src/frontend/store'
-import { Hello, Item } from 'src/types'
+import { Fn, Hello, Item } from 'src/types'
 
 export const useHello = (): string => {
     const [{ hello }, dispatch] = useContext(Context) as ContextType
@@ -49,18 +49,26 @@ export const useItems = (): Item[] => {
         }
         dispatch(getItemsInit())
         graphqlClient
-            .query<{ items: Item[] }>({
+            .query<{ getItems: Item[] }>({
                 query: gql`
                     query {
-                        items {
-                            expire
+                        getItems {
+                            _id
+                            expiration
                             title
                         }
                     }
                 `,
             })
             .then((response) => {
-                dispatch(getItemsSuccess(response.data.items))
+                dispatch(
+                    getItemsSuccess(
+                        response.data.getItems.map((item) => ({
+                            ...item,
+                            expiration: new Date(item.expiration),
+                        })),
+                    ),
+                )
             })
             .catch(() => {
                 dispatch(getItemsFail())
@@ -68,4 +76,56 @@ export const useItems = (): Item[] => {
     }, [dispatch, items])
 
     return items || []
+}
+
+export const useCreateItem = (): Fn<[Item], void> => {
+    const [{ items }, dispatch] = useContext(Context) as ContextType
+
+    return (item: Item) => {
+        items && items.push(item)
+        const newItems = items
+            ? items.sort(
+                  (prev, next) =>
+                      prev.expiration.getTime() - next.expiration.getTime(),
+              )
+            : [item]
+
+        graphqlClient
+            .mutate({
+                mutation: gql`
+                    mutation {
+                        createItem(
+                            title: "${item.title}", expiration: "${item.expiration}"
+                        )
+                    }
+                `,
+            })
+            .then(() => dispatch(getItemsSuccess(newItems)))
+            .catch(() => {
+                // Error Handling
+            })
+    }
+}
+
+export const useRemoveItem = (): Fn<[string], void> => {
+    const [{ items }, dispatch] = useContext(Context) as ContextType
+
+    return (_id: string) => {
+        const newItems = items ? items.filter((item) => item._id !== _id) : []
+
+        graphqlClient
+            .mutate({
+                mutation: gql`
+                    mutation {
+                        removeItem(
+                            _id: "${_id}"
+                        )
+                    }
+                `,
+            })
+            .then(() => dispatch(getItemsSuccess(newItems)))
+            .catch(() => {
+                // Error Handling
+            })
+    }
 }

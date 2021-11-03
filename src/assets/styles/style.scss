@@ -1,3 +1,47 @@
-body {
-    background-color: #ccccd4;
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700&display=swap');
+
+$primary-color: #970000;
+$background-color: #ccccd4;
+$line-size: 6px;
+
+html {
+    background-color: $background-color;
+    font-family: 'Ubuntu', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: lighter;
+    font-size: 22px;
+    margin: 0;
+    padding: 0;
+    background-image: url('../images/dot.svg');
+    background-position: center center;
+    background-repeat: repeat-y;
+    background-size: $line-size;
 }
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body,
+div,
+section,
+button,
+input {
+    box-sizing: border-box;
+}
+
+.hidden {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    padding: 0 !important;
+    opacity: 0;
+}
+
+@import 'timeline';
+@import 'input';
+@import 'remove-popup';

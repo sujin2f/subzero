@@ -1,0 +1,84 @@
+/*
+ * TimeLine Wrapper Component
+ */
+
+import React, { useState, useRef } from 'react'
+import { useCreateItem } from '../hooks'
+
+export const Form = (): JSX.Element => {
+    const [opened, updateOpened] = useState<boolean>(false)
+    const formElement = useRef<HTMLFormElement>(null)
+    const titleElement = useRef<HTMLInputElement>(null)
+    const dateElement = useRef<HTMLInputElement>(null)
+    const createItem = useCreateItem()
+
+    const openForm = () => {
+        updateOpened(true)
+        titleElement.current && titleElement.current.focus()
+    }
+    const closeForm = (
+        e: React.MouseEvent | React.KeyboardEvent | React.FormEvent,
+    ) => {
+        e.preventDefault()
+        updateOpened(false)
+    }
+    const onKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Escape') {
+            closeForm(e)
+        }
+    }
+    const executeForm = (e: React.FormEvent) => {
+        e.preventDefault()
+        const title = titleElement.current?.value
+        const date = dateElement.current?.value
+        if (!title || !date) {
+            // @todo Error
+            return
+        }
+        createItem({ _id: '', title, expiration: new Date(date) })
+        titleElement.current!.value = ''
+        dateElement.current!.value = ''
+        closeForm(e)
+    }
+
+    return (
+        <section className="input__wrapper">
+            <form
+                ref={formElement}
+                className={`input ${opened ? '' : 'hidden'}`}
+                onSubmit={executeForm}
+            >
+                <label htmlFor="name">Item Name</label>
+                <input
+                    id="name"
+                    type="text"
+                    className="input__field"
+                    ref={titleElement}
+                    onKeyDown={onKeyDown}
+                    onFocus={openForm}
+                />
+                <label htmlFor="expiration">Expiration Date</label>
+                <input
+                    id="expiration"
+                    type="datetime-local"
+                    className="input__field"
+                    ref={dateElement}
+                />
+                <button onClick={closeForm} className="input__cancel">
+                    Cancel
+                </button>
+                <button className="input__execution">Add Item</button>
+            </form>
+            {!opened && (
+                <button
+                    className="input__button"
+                    aria-label="Add item"
+                    onClick={openForm}
+                >
+                    <div className="input__button__icon" />
+                    <div className="input__button__icon" />
+                </button>
+            )}
+        </section>
+    )
+}

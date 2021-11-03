@@ -3,6 +3,7 @@ export type Hello = {
 }
 
 export type Item = {
+    _id: string
     title: string
-    expire: Date
+    expiration: Date
 }

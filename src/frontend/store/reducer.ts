@@ -3,12 +3,15 @@ import {
     GET_ITEMS_INIT,
     GET_ITEMS_SUCCESS,
     GET_ITEMS_FAIL,
+    OPEN_DELETE_POPUP,
+    CLOSE_DELETE_POPUP,
 } from 'src/frontend/store/actions'
 import { Action, State } from 'src/types'
 
 export const initialState: State = {
     hello: '',
     items: undefined,
+    removePopup: false,
 }
 
 export const reducer = (state: State = initialState, action: Action): State => {
@@ -38,6 +41,20 @@ export const reducer = (state: State = initialState, action: Action): State => {
             return {
                 ...state,
                 items: [],
+            }
+        }
+
+        case OPEN_DELETE_POPUP: {
+            return {
+                ...state,
+                removePopup: action._id,
+            }
+        }
+
+        case CLOSE_DELETE_POPUP: {
+            return {
+                ...state,
+                removePopup: false,
             }
         }
 

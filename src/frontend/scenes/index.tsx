@@ -1,38 +1,21 @@
 /*
  * Public Wrapper Component
- * scenes/public
  */
 
-import React from 'react'
+import React, { Fragment, useContext } from 'react'
 
-import { useItems } from 'src/frontend/hooks'
+import { Form } from '../components/Form'
+import { RemovePopup } from '../components/RemovePopup'
+import { TimeLine } from '../components/TimeLine'
+import { Context, ContextType } from '../store'
 
 export const Public = (): JSX.Element => {
-    const items = useItems()
-
+    const [{ removePopup }] = useContext(Context) as ContextType
     return (
-        <table>
-            <tbody>
-                {items &&
-                    items.map((item, index) => {
-                        const expire = new Date(item.expire)
-                        return (
-                            <tr key={`${item.expire}-${item.title}`}>
-                                <td>
-                                    {index % 2 === 0
-                                        ? expire.toDateString()
-                                        : item.title}
-                                </td>
-                                <td></td>
-                                <td>
-                                    {index % 2 === 0
-                                        ? item.title
-                                        : expire.toDateString()}
-                                </td>
-                            </tr>
-                        )
-                    })}
-            </tbody>
-        </table>
+        <Fragment>
+            {removePopup && <RemovePopup />}
+            <Form />
+            <TimeLine />
+        </Fragment>
     )
 }
