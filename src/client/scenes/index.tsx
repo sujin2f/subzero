@@ -4,9 +4,7 @@
 
 import React, { Fragment, useContext } from 'react'
 
-import { Form } from 'src/client/components/Form'
-import { RemovePopup } from 'src/client/components/RemovePopup'
-import { TimeLine } from 'src/client/components/TimeLine'
+import { Form, RemovePopup, TimeLine } from 'src/client/components'
 import { Context, ContextType } from 'src/client/store'
 
 export const Public = (): JSX.Element => {

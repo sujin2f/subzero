@@ -6,7 +6,7 @@ import express from 'express'
 import { graphqlHTTP } from 'express-graphql'
 import { buildSchema } from 'graphql'
 
-import { hello, getItems, createItem, removeItem } from 'src/utils/'
+import { hello, getItems, createItem, removeItem } from 'src/utils'
 
 const apiRouter = express.Router()
 const schema = buildSchema(`

@@ -19,4 +19,6 @@ export {
     getItemsInit,
     getItemsSuccess,
     getItemsFail,
+    closeRemovePopup,
+    openRemovePopup,
 } from './actions'
