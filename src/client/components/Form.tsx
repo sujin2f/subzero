@@ -4,7 +4,6 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import { useCreateItem } from 'src/client/hooks'
-import { dateToYyyyMmDd } from 'src/utils/datetime'
 
 export const Form = (): JSX.Element => {
     const [opened, updateOpened] = useState<boolean>(false)
@@ -34,12 +33,11 @@ export const Form = (): JSX.Element => {
     const executeForm = (e: React.FormEvent) => {
         e.preventDefault()
         const title = titleElement.current?.value
-        const date = dateElement.current?.value
-        if (!title || !date) {
+        const expiration = dateElement.current?.value
+        if (!title || !expiration) {
             // @todo Error
             return
         }
-        const expiration = dateToYyyyMmDd(new Date(date))
         createItem({ _id: '', title, expiration })
         titleElement.current!.value = ''
         dateElement.current!.value = ''
@@ -70,7 +68,7 @@ export const Form = (): JSX.Element => {
                     <label htmlFor="expiration">Expiration Date</label>
                     <input
                         id="expiration"
-                        type="datetime-local"
+                        type="date"
                         className="input__field"
                         onKeyDown={onKeyDown}
                         ref={dateElement}

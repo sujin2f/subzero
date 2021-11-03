@@ -20,17 +20,6 @@ export const addZero = (number: string | number, digits = 2): string => {
 
 /**
  * Convert YYYY-DD-MM to Date
- * @param {Date} date
- * @return {string}
- */
-export const dateToYyyyMmDd = (date: Date): string => {
-    return `${date.getFullYear()}-${addZero(date.getMonth() + 1)}-${addZero(
-        date.getDate(),
-    )}`
-}
-
-/**
- * Convert YYYY-DD-MM to Date
  * @param {string} yyyyMmDd YYYY-DD-MM
  * @return {Date}
  */

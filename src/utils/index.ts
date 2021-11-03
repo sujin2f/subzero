@@ -6,7 +6,7 @@ export {
     baseDirProd,
     bundles,
 } from './environment'
-export { addZero, dateToYyyyMmDd, yyyyMmDdToDate } from './datetime'
+export { addZero, yyyyMmDdToDate } from './datetime'
 
 export { mongoConnect } from './mongo/connect'
 
