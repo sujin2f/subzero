@@ -70,7 +70,6 @@ export const useCreateItem = (): Fn<[Item], void> => {
                       )
                     : [item]
 
-                console.log(result)
                 dispatch(getItemsSuccess(newItems))
             })
             .catch(() => {

@@ -3,3 +3,10 @@ export type Item = {
     title: string
     expiration: string
 }
+
+export type User = {
+    _id: string
+    email: string
+    name: string
+    photo?: string
+}

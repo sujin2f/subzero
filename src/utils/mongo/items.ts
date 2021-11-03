@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
+import { ErrorMessages } from 'src/constants'
 import { Item } from 'src/types'
 
 const itemsSchema = new Schema({
@@ -19,12 +20,12 @@ export const getItems = async (): Promise<Item[]> => {
         .sort([['expiration', 1]])
         .then((items) => {
             if (!items) {
-                throw new Error('🤬 Cannot find items')
+                throw new Error(ErrorMessages.FIND_ITEM_FAILED)
             }
             return items
         })
         .catch(() => {
-            throw new Error('🤬 Cannot find items')
+            throw new Error(ErrorMessages.FIND_ITEM_FAILED)
         })
 }
 
@@ -39,7 +40,7 @@ export const createItem = async (
     const itemModel = new ItemsModel(item)
 
     return await itemModel.save().catch(() => {
-        throw new Error('🤬 Cannot create an item.')
+        throw new Error(ErrorMessages.CREATE_ITEM_FAILED)
     })
 }
 
@@ -49,5 +50,5 @@ export const removeItem = async (_id: string): Promise<boolean> => {
         return true
     }
 
-    throw new Error('🤬 Item removal failed.')
+    throw new Error(ErrorMessages.REMOVE_ITEM_FAILED)
 }

@@ -1,19 +1,17 @@
 @import url('https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700&display=swap');
 
 $primary-color: #970000;
-$background-color: #ccccd4;
+$background-color: #cacad1;
 $line-size: 6px;
 
 html {
-    background-color: $background-color;
     font-family: 'Ubuntu', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: lighter;
     font-size: 22px;
     margin: 0;
     padding: 0;
-    background-image: url('../images/dot.svg');
-    background-position: center center;
-    background-repeat: repeat-y;
+    background: $background-color url('../images/dot.svg') repeat-y center
+        center;
     background-size: $line-size;
 }
 

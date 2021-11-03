@@ -28,8 +28,6 @@ export const TimeLine = (): JSX.Element => {
                     )
                     const classHurry =
                         remains < 15 ? 'timeline__item--button--hurry' : ''
-                    const classDead =
-                        remains < 0 ? 'timeline__item--button--dead' : ''
                     const evenRow = index % 2
 
                     return (
@@ -41,7 +39,7 @@ export const TimeLine = (): JSX.Element => {
                         >
                             <ItemTitle title={item.title} />
                             <button
-                                className={`timeline__item--button ${classHurry} ${classDead}`}
+                                className={`timeline__item--button ${classHurry}`}
                                 onClick={() =>
                                     dispatch(openRemovePopup(item._id))
                                 }
