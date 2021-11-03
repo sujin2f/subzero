@@ -2,7 +2,7 @@
  * TimeLine Wrapper Component
  */
 
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 
 import { useRemoveItem } from 'src/client/hooks'
 import { Context, ContextType } from 'src/client/store'
@@ -11,14 +11,28 @@ import { closeRemovePopup } from 'src/client/store/actions'
 export const RemovePopup = (): JSX.Element => {
     const [{ removePopup }, dispatch] = useContext(Context) as ContextType
     const removeItem = useRemoveItem()
+    const submitButton = useRef<HTMLButtonElement>(null)
 
-    const onDeleteClick = (e: React.MouseEvent) => {
+    const onDeleteClick = (e: React.MouseEvent | KeyboardEvent) => {
         e.preventDefault()
         if (typeof removePopup === 'string') {
             removeItem(removePopup)
         }
         dispatch(closeRemovePopup())
     }
+
+    useEffect(() => {
+        submitButton.current && submitButton.current.focus()
+    }, [submitButton])
+
+    document.body.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            dispatch(closeRemovePopup())
+        }
+        if (e.key === 'Enter') {
+            onDeleteClick(e)
+        }
+    })
 
     return (
         <div className="overlay">
@@ -30,7 +44,11 @@ export const RemovePopup = (): JSX.Element => {
                 >
                     Cancel
                 </button>
-                <button className="input__execution" onClick={onDeleteClick}>
+                <button
+                    className="input__execution"
+                    onClick={onDeleteClick}
+                    ref={submitButton}
+                >
                     Remove Item
                 </button>
             </section>

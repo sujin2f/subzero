@@ -2,7 +2,7 @@
  * TimeLine Wrapper Component
  */
 
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useCreateItem } from 'src/client/hooks'
 
 export const Form = (): JSX.Element => {
@@ -26,6 +26,9 @@ export const Form = (): JSX.Element => {
         if (e.key === 'Escape') {
             closeForm(e)
         }
+        if (e.key === 'Enter') {
+            executeForm(e)
+        }
     }
     const executeForm = (e: React.FormEvent) => {
         e.preventDefault()
@@ -41,34 +44,43 @@ export const Form = (): JSX.Element => {
         closeForm(e)
     }
 
+    useEffect(() => {
+        opened && titleElement.current && titleElement.current.focus()
+    }, [titleElement, opened])
+
     return (
         <section className="input__wrapper">
-            <form
-                ref={formElement}
-                className={`input ${opened ? '' : 'hidden'}`}
-                onSubmit={executeForm}
-            >
-                <label htmlFor="name">Item Name</label>
-                <input
-                    id="name"
-                    type="text"
-                    className="input__field"
-                    ref={titleElement}
-                    onKeyDown={onKeyDown}
-                    onFocus={openForm}
-                />
-                <label htmlFor="expiration">Expiration Date</label>
-                <input
-                    id="expiration"
-                    type="datetime-local"
-                    className="input__field"
-                    ref={dateElement}
-                />
-                <button onClick={closeForm} className="input__cancel">
-                    Cancel
-                </button>
-                <button className="input__execution">Add Item</button>
-            </form>
+            {opened && (
+                <form
+                    ref={formElement}
+                    className="input"
+                    onSubmit={executeForm}
+                >
+                    <label htmlFor="name">Item Name</label>
+                    <input
+                        id="name"
+                        type="text"
+                        className="input__field"
+                        ref={titleElement}
+                        onKeyDown={onKeyDown}
+                        onFocus={openForm}
+                    />
+                    <label htmlFor="expiration">Expiration Date</label>
+                    <input
+                        id="expiration"
+                        type="datetime-local"
+                        className="input__field"
+                        onKeyDown={onKeyDown}
+                        ref={dateElement}
+                    />
+                    <button onClick={closeForm} className="input__cancel">
+                        Cancel
+                    </button>
+                    <button className="input__execution" type="submit">
+                        Add Item
+                    </button>
+                </form>
+            )}
             {!opened && (
                 <button
                     className="input__button"

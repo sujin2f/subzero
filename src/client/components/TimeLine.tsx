@@ -19,10 +19,14 @@ export const TimeLine = (): JSX.Element => {
             {items &&
                 items.map((item, index) => {
                     const now = new Date()
-                    const remains = Math.ceil(
-                        (item.expiration.getTime() - now.getTime()) /
-                            (1000 * 60 * 60 * 24), // Millisecond to Day
-                    )
+                    now.setHours(0)
+                    now.setMinutes(0)
+                    now.setSeconds(0)
+                    const remains =
+                        Math.ceil(
+                            (item.expiration.getTime() - now.getTime()) /
+                                (1000 * 60 * 60 * 24), // Millisecond to Day
+                        ) - 1
                     const classHurry =
                         remains < 15 ? 'timeline__item--button--hurry' : ''
                     const classDead =
@@ -43,7 +47,7 @@ export const TimeLine = (): JSX.Element => {
                                     dispatch(openRemovePopup(item._id))
                                 }
                             >
-                                {remains}
+                                {remains > 999 ? '1k+' : remains}
                             </button>
                             <ItemExpiration expiration={item.expiration} />
                         </div>
