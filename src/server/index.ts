@@ -7,7 +7,7 @@ import { mongoConnect } from 'src/utils'
 import { apiRouter } from 'src/server/api'
 
 const app: Application = express()
-const port: number = process.env.NODE_ENV === 'development' ? 8080 : 80 // default port to listen
+const port: number = process.env.NODE_ENV === 'development' ? 8080 : 8000 // default port to listen
 require('dotenv').config()
 
 app.use('/api', apiRouter)
@@ -15,13 +15,8 @@ app.use('/api', apiRouter)
 /**
  * Assets
  */
-app.get('/assets(/*)', (req, res) => {
-    const html = `${publicDir}/${req.url}`
-    res.sendFile(html)
-})
-
-app.get('/robots.txt', (_, res) => {
-    const html = `${publicDir}/robots.txt`
+app.get(/robots\.txt|manifest\.json|favicon\.ico$/, (req, res) => {
+    const html = `${publicDir}${req.url}`
     res.sendFile(html)
 })
 
@@ -30,7 +25,7 @@ app.get('/static(/*)', (req, res) => {
         const html = `${baseDirDev}${req.url}`
         res.sendFile(html)
     } else {
-        const html = `${baseDirProd}${req.url}`
+        const html = `${baseDirProd}/client/${req.url}`
         res.sendFile(html)
     }
 })
@@ -42,16 +37,12 @@ app.get('/static(/*)', (req, res) => {
  * @return {void}
  */
 export const showReact = async (res: Response): Promise<void> => {
-    if (!isDev()) {
-        res.sendFile(path.resolve(baseDirProd, 'index.html'))
-        return
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const filePath = path.resolve(publicDir, 'frontend.html')
+    const filePath = path.resolve(publicDir, 'index.ejs')
+    const bundleData = bundles()
     const html = await ejs
         .renderFile(filePath, {
-            bundles: [...bundles()],
+            js: bundleData.filter((value) => value.endsWith('.js')),
+            css: bundleData.filter((value) => value.endsWith('.css')),
         })
         .catch((e) => console.error(e))
 

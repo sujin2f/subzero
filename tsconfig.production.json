@@ -9,7 +9,7 @@
         "rootDirs": ["src/server"],
         "baseUrl": "./",
         "paths": {
-            "@utils/*": ["src/utils/*"]
+            "src/*": ["src/*"]
         },
         "plugins": [
             {

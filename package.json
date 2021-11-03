@@ -39,7 +39,7 @@
         "webpack": "^4.42.0",
         "webpack-cli": "^3.3.12"
     },
-    "main": "dist/server/index.js",
+    "main": "build/server/index.js",
     "scripts": {
         "dev": "npm-run-all -s dev:clean dev:watch",
         "dev:clean": "rimraf dist/*",
@@ -59,6 +59,6 @@
         ]
     },
     "_moduleAliases": {
-        "src": "dist"
+        "src": "build"
     }
 }
