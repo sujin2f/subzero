@@ -1,7 +1,3 @@
-/**
- * Hello document model
- */
-
 import mongoose, { Schema } from 'mongoose'
 import { Item } from 'src/types'
 
