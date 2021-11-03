@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import * as serviceWorker from 'src/frontend/serviceWorker'
+import * as serviceWorker from 'src/client/serviceWorker'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { Store } from 'src/frontend/store'
+import { Store } from 'src/client/store'
 
 import 'src/assets/styles/style.scss'
 import { Public } from './scenes'

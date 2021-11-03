@@ -4,7 +4,7 @@ import express, { Application, Response } from 'express'
 import path from 'path'
 import { baseDirDev, baseDirProd, bundles, isDev, publicDir } from 'src/utils'
 import { mongoConnect } from 'src/utils'
-import { apiRouter } from 'src/backend/api'
+import { apiRouter } from 'src/server/api'
 
 const app: Application = express()
 const port: number = process.env.NODE_ENV === 'development' ? 8080 : 80 // default port to listen

@@ -4,11 +4,11 @@
 
 import React, { useContext } from 'react'
 
-import { useItems } from 'src/frontend/hooks'
-import { Context, ContextType } from '../store'
-import { openRemovePopup } from '../store/actions'
-import { ItemExpiration } from './ItemExpiration'
-import { ItemTitle } from './ItemTitle'
+import { useItems } from 'src/client/hooks'
+import { Context, ContextType } from 'src/client/store'
+import { openRemovePopup } from 'src/client/store/actions'
+import { ItemExpiration } from 'src/client/components/ItemExpiration'
+import { ItemTitle } from 'src/client/components/ItemTitle'
 
 export const TimeLine = (): JSX.Element => {
     const [, dispatch] = useContext(Context) as ContextType

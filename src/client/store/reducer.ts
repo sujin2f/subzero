@@ -5,7 +5,7 @@ import {
     GET_ITEMS_FAIL,
     OPEN_DELETE_POPUP,
     CLOSE_DELETE_POPUP,
-} from 'src/frontend/store/actions'
+} from 'src/client/store/actions'
 import { Action, State } from 'src/types'
 
 export const initialState: State = {

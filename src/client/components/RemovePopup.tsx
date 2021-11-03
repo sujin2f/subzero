@@ -4,9 +4,9 @@
 
 import React, { useContext } from 'react'
 
-import { useRemoveItem } from 'src/frontend/hooks'
-import { Context, ContextType } from '../store'
-import { closeRemovePopup } from '../store/actions'
+import { useRemoveItem } from 'src/client/hooks'
+import { Context, ContextType } from 'src/client/store'
+import { closeRemovePopup } from 'src/client/store/actions'
 
 export const RemovePopup = (): JSX.Element => {
     const [{ removePopup }, dispatch] = useContext(Context) as ContextType

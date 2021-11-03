@@ -7,10 +7,10 @@ const config =
         ? configFactory('development')
         : configFactory('production')
 
-config.entry = [path.resolve(__dirname, 'src', 'frontend', 'index.tsx')]
+config.entry = [path.resolve(__dirname, 'src', 'client', 'index.tsx')]
 
 if ('production' === process.env.NODE_ENV) {
-    config.output.path = path.resolve(__dirname, 'build', 'frontend')
+    config.output.path = path.resolve(__dirname, 'build', 'client')
 }
 
 module.exports = config

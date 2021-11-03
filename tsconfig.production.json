@@ -21,6 +21,6 @@
         "forceConsistentCasingInFileNames": true,
         "lib": ["dom", "dom.iterable", "esnext"]
     },
-    "include": ["src/backend/**/*"],
+    "include": ["src/server/**/*"],
     "exclude": ["node_modules", "**/*.spec.ts"]
 }

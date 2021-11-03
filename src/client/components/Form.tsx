@@ -3,7 +3,7 @@
  */
 
 import React, { useState, useRef } from 'react'
-import { useCreateItem } from '../hooks'
+import { useCreateItem } from 'src/client/hooks'
 
 export const Form = (): JSX.Element => {
     const [opened, updateOpened] = useState<boolean>(false)

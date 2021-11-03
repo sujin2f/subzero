@@ -13,7 +13,7 @@ export const isDev = (): boolean => process.env.NODE_ENV === 'development'
 export const rootDir = path.resolve(__dirname, '../../')
 export const publicDir = path.resolve(rootDir, 'public')
 export const baseDirDev = path.resolve(rootDir, 'dist')
-export const baseDirProd = path.resolve(rootDir, 'build', 'frontend')
+export const baseDirProd = path.resolve(rootDir, 'build', 'client')
 /**
  * Get the bundle folder
  * @return {string[]}

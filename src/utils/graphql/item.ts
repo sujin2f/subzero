@@ -3,7 +3,7 @@ import {
     getItems as getMongoItems,
     createItem as createMongoItem,
     removeItem as removeMongoItem,
-} from '../mongo/items'
+} from 'src/utils/mongo/items'
 
 export const getItems = async (): Promise<Item[]> => {
     return await getMongoItems().catch((e) => {

@@ -9,7 +9,7 @@ import {
     getItemsSuccess,
     getItemsInit,
     getItemsFail,
-} from 'src/frontend/store'
+} from 'src/client/store'
 import { Fn, Hello, Item } from 'src/types'
 
 export const useHello = (): string => {
