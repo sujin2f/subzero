@@ -14,12 +14,10 @@ export const getItems = async (): Promise<Item[]> => {
 export const createItem = async ({
     title,
     expiration,
-}: Item): Promise<boolean> => {
-    return await createMongoItem(title, expiration)
-        .then(() => true)
-        .catch((e) => {
-            throw e
-        })
+}: Item): Promise<Item> => {
+    return await createMongoItem(title, expiration).catch((e) => {
+        throw e
+    })
 }
 
 export const removeItem = async (id: string): Promise<boolean> => {

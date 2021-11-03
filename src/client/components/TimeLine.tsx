@@ -9,6 +9,7 @@ import { Context, ContextType } from 'src/client/store'
 import { openRemovePopup } from 'src/client/store/actions'
 import { ItemExpiration } from 'src/client/components/ItemExpiration'
 import { ItemTitle } from 'src/client/components/ItemTitle'
+import { yyyyMmDdToDate } from 'src/utils'
 
 export const TimeLine = (): JSX.Element => {
     const [, dispatch] = useContext(Context) as ContextType
@@ -22,11 +23,11 @@ export const TimeLine = (): JSX.Element => {
                     now.setHours(0)
                     now.setMinutes(0)
                     now.setSeconds(0)
-                    const remains =
-                        Math.ceil(
-                            (item.expiration.getTime() - now.getTime()) /
-                                (1000 * 60 * 60 * 24), // Millisecond to Day
-                        ) - 1
+                    const remains = Math.ceil(
+                        (yyyyMmDdToDate(item.expiration).getTime() -
+                            now.getTime()) /
+                            (1000 * 60 * 60 * 24), // Millisecond to Day
+                    )
                     const classHurry =
                         remains < 15 ? 'timeline__item--button--hurry' : ''
                     const classDead =

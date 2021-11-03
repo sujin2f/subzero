@@ -13,7 +13,7 @@ export const RemovePopup = (): JSX.Element => {
     const removeItem = useRemoveItem()
     const submitButton = useRef<HTMLButtonElement>(null)
 
-    const onDeleteClick = (e: React.MouseEvent | KeyboardEvent) => {
+    const onDeleteClick = (e: React.MouseEvent | React.KeyboardEvent) => {
         e.preventDefault()
         if (typeof removePopup === 'string') {
             removeItem(removePopup)
@@ -25,14 +25,14 @@ export const RemovePopup = (): JSX.Element => {
         submitButton.current && submitButton.current.focus()
     }, [submitButton])
 
-    document.body.addEventListener('keydown', (e) => {
+    const onKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Escape') {
             dispatch(closeRemovePopup())
         }
         if (e.key === 'Enter') {
             onDeleteClick(e)
         }
-    })
+    }
 
     return (
         <div className="overlay">
@@ -41,6 +41,7 @@ export const RemovePopup = (): JSX.Element => {
                 <button
                     onClick={() => dispatch(closeRemovePopup())}
                     className="input__cancel"
+                    onKeyDown={onKeyDown}
                 >
                     Cancel
                 </button>
@@ -48,6 +49,7 @@ export const RemovePopup = (): JSX.Element => {
                     className="input__execution"
                     onClick={onDeleteClick}
                     ref={submitButton}
+                    onKeyDown={onKeyDown}
                 >
                     Remove Item
                 </button>

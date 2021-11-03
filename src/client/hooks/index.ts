@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { gql } from '@apollo/client'
 
-import { graphqlClient } from 'src/utils'
+import { graphqlClient, yyyyMmDdToDate } from 'src/utils'
 import {
     ContextType,
     Context,
@@ -61,14 +61,7 @@ export const useItems = (): Item[] => {
                 `,
             })
             .then((response) => {
-                dispatch(
-                    getItemsSuccess(
-                        response.data.getItems.map((item) => ({
-                            ...item,
-                            expiration: new Date(item.expiration),
-                        })),
-                    ),
-                )
+                dispatch(getItemsSuccess(response.data.getItems))
             })
             .catch(() => {
                 dispatch(getItemsFail())
@@ -82,25 +75,33 @@ export const useCreateItem = (): Fn<[Item], void> => {
     const [{ items }, dispatch] = useContext(Context) as ContextType
 
     return (item: Item) => {
-        items && items.push(item)
-        const newItems = items
-            ? items.sort(
-                  (prev, next) =>
-                      prev.expiration.getTime() - next.expiration.getTime(),
-              )
-            : [item]
-
         graphqlClient
             .mutate({
                 mutation: gql`
                     mutation {
                         createItem(
                             title: "${item.title}", expiration: "${item.expiration}"
-                        )
+                        ) {
+                            _id
+                            expiration
+                            title
+                        }
                     }
                 `,
             })
-            .then(() => dispatch(getItemsSuccess(newItems)))
+            .then((result) => {
+                items && items.push(result.data.createItem)
+                const newItems = items
+                    ? items.sort(
+                          (prev, next) =>
+                              yyyyMmDdToDate(prev.expiration).getTime() -
+                              yyyyMmDdToDate(next.expiration).getTime(),
+                      )
+                    : [item]
+
+                console.log(result)
+                dispatch(getItemsSuccess(newItems))
+            })
             .catch(() => {
                 // Error Handling
             })

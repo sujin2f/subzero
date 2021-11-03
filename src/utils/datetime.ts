@@ -17,3 +17,42 @@ export const addZero = (number: string | number, digits = 2): string => {
 
     return value.join('')
 }
+
+/**
+ * Convert YYYY-DD-MM to Date
+ * @param {Date} date
+ * @return {string}
+ */
+export const dateToYyyyMmDd = (date: Date): string => {
+    return `${date.getFullYear()}-${addZero(date.getMonth() + 1)}-${addZero(
+        date.getDate(),
+    )}`
+}
+
+/**
+ * Convert YYYY-DD-MM to Date
+ * @param {string} yyyyMmDd YYYY-DD-MM
+ * @return {Date}
+ */
+export const yyyyMmDdToDate = (yyyyMmDd: string): Date => {
+    const splitted = yyyyMmDd.split('-')
+    if (splitted.length !== 3) {
+        const date = new Date()
+        date.setHours(0)
+        date.setMinutes(0)
+        date.setSeconds(0)
+        date.setMilliseconds(0)
+        return date
+    }
+    const date = new Date()
+    date.setFullYear(parseInt(splitted[0]))
+    date.setMonth(parseInt(splitted[1]) - 1)
+    date.setDate(parseInt(splitted[2]))
+
+    date.setHours(0)
+    date.setMinutes(0)
+    date.setSeconds(0)
+    date.setMilliseconds(0)
+
+    return date
+}

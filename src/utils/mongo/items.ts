@@ -7,7 +7,7 @@ import { Item } from 'src/types'
 
 const itemsSchema = new Schema({
     expiration: {
-        type: Date,
+        type: String,
         required: true,
     },
     title: {
@@ -34,20 +34,17 @@ export const getItems = async (): Promise<Item[]> => {
 
 export const createItem = async (
     title: string,
-    expiration: Date,
-): Promise<boolean> => {
+    expiration: string,
+): Promise<Item> => {
     const item = {
         title,
         expiration,
     }
     const itemModel = new ItemsModel(item)
 
-    return await itemModel
-        .save()
-        .then(async () => true)
-        .catch(() => {
-            throw new Error('🤬 Cannot create an item.')
-        })
+    return await itemModel.save().catch(() => {
+        throw new Error('🤬 Cannot create an item.')
+    })
 }
 
 export const removeItem = async (_id: string): Promise<boolean> => {

@@ -26,7 +26,7 @@ export const reducer = (state: State = initialState, action: Action): State => {
         case GET_ITEMS_INIT: {
             return {
                 ...state,
-                items: undefined,
+                items: [],
             }
         }
 

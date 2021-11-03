@@ -4,6 +4,7 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import { useCreateItem } from 'src/client/hooks'
+import { dateToYyyyMmDd } from 'src/utils/datetime'
 
 export const Form = (): JSX.Element => {
     const [opened, updateOpened] = useState<boolean>(false)
@@ -38,7 +39,8 @@ export const Form = (): JSX.Element => {
             // @todo Error
             return
         }
-        createItem({ _id: '', title, expiration: new Date(date) })
+        const expiration = dateToYyyyMmDd(new Date(date))
+        createItem({ _id: '', title, expiration })
         titleElement.current!.value = ''
         dateElement.current!.value = ''
         closeForm(e)

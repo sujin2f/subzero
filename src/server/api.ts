@@ -16,7 +16,7 @@ const schema = buildSchema(`
         getItems: [Item]
     },
     type Mutation {
-        createItem(title: String!, expiration: Date!): Boolean
+        createItem(title: String!, expiration: String!): Item
         removeItem(_id: String!): Boolean
     }
     type Hello {
@@ -25,7 +25,7 @@ const schema = buildSchema(`
     type Item {
         _id: String
         title: String
-        expiration: Date
+        expiration: String
     },
 `)
 
