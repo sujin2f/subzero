@@ -1,8 +1,11 @@
+/* tslint:disable: no-console */
 import 'module-alias/register'
 import ejs from 'ejs'
 import express, { Application, Response } from 'express'
 import path from 'path'
 import session from 'express-session'
+import ConnectMongoDBSession from 'connect-mongodb-session'
+import { config as detEnvConfig } from 'dotenv'
 
 import {
     baseDirDev,
@@ -22,37 +25,46 @@ declare module 'express-session' {
     }
 }
 
+const app: Application = express()
+const port: number = isDev() ? 8080 : 80 // default port to listen
+
+/**
+ * .env
+ */
 const envPath = isDev()
     ? undefined
     : path.resolve(__dirname, '../', '../', '.env.production')
-require('dotenv').config({ path: envPath })
+detEnvConfig({ path: envPath })
 
-const app: Application = express()
-const port: number = isDev() ? 8080 : 80 // default port to listen
-const MongoDBStore = require('connect-mongodb-session')(session)
-const store = new MongoDBStore({
-    uri: process.env.MONGO_URI,
-    collection: 'sessions',
-})
+/**
+ * Session
+ */
+if (process.env.SESSION_SECRET && process.env.MONGO_URI) {
+    const MongoDBStore = ConnectMongoDBSession(session)
+    const store = new MongoDBStore({
+        uri: process.env.MONGO_URI,
+        collection: 'sessions',
+    })
 
-store.on('error', (e: Error) => {
-    console.log(e)
-})
+    store.on('error', (e: Error) => {
+        console.log(e)
+    })
 
-app.use(
-    require('express-session')({
-        secret: process.env.SESSION_SECRET,
-        cookie: {
-            maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-        },
-        store,
-        // Boilerplate options, see:
-        // * https://www.npmjs.com/package/express-session#resave
-        // * https://www.npmjs.com/package/express-session#saveuninitialized
-        resave: true,
-        saveUninitialized: true,
-    }),
-)
+    app.use(
+        session({
+            secret: process.env.SESSION_SECRET || '',
+            cookie: {
+                maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+            },
+            store,
+            // Boilerplate options, see:
+            // * https://www.npmjs.com/package/express-session#resave
+            // * https://www.npmjs.com/package/express-session#saveuninitialized
+            resave: true,
+            saveUninitialized: true,
+        }),
+    )
+}
 
 app.use('/api', apiRouter)
 app.use('/auth', authRouter)
@@ -60,10 +72,13 @@ app.use('/auth', authRouter)
 /**
  * Assets
  */
-app.get(/robots\.txt|manifest\.json|favicon\.ico$/, (req, res) => {
-    const html = `${publicDir}${req.url}`
-    res.sendFile(html)
-})
+app.get(
+    /robots\.txt|manifest\.json|favicon\.ico|thumbnail\.png$/,
+    (req, res) => {
+        const html = `${publicDir}${req.url}`
+        res.sendFile(html)
+    },
+)
 
 app.get('/static(/*)', (req, res) => {
     if (isDev()) {
@@ -97,12 +112,14 @@ export const showReact = async (res: Response): Promise<void> => {
 /**
  * React frontend
  */
-app.use(function (_, res) {
+app.use((_, res) => {
     showReact(res)
 })
 
 // start the Express server
 app.listen(port, (): void => {
     console.log(`🤩 Server started at http://localhost:${port}`)
-    mongoConnect().catch(() => console.error(ErrorMessages.MONGO_FAILED))
+    mongoConnect()
+        .then(() => console.log('🤩 Mongo DB connected'))
+        .catch(() => console.error(ErrorMessages.MONGO_FAILED))
 })

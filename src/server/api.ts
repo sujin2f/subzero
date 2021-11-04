@@ -5,9 +5,10 @@
 import express, { Request, Response, NextFunction } from 'express'
 import { graphqlHTTP } from 'express-graphql'
 import { buildSchema } from 'graphql'
+import { ErrorMessages } from 'src/constants'
 
 import { getItems, createItem, removeItem } from 'src/utils'
-import { getUserById } from 'src/utils/mongo/users'
+import { getUserById, setDarkMode } from 'src/utils/mongo/users'
 
 declare module 'express-session' {
     interface Session {
@@ -24,6 +25,7 @@ const schema = buildSchema(`
     type Mutation {
         createItem(title: String!, expiration: String!): Item
         removeItem(_id: String!): Boolean
+        setDarkMode(darkMode: Boolean!): Boolean
     }
     type Item {
         _id: String
@@ -34,6 +36,7 @@ const schema = buildSchema(`
         name: String,
         email: String,
         photo: String,
+        darkMode: Boolean
     }
 `)
 
@@ -61,6 +64,12 @@ apiRouter.use(
             },
             getUser: (_: void, req: Request) => {
                 return req.session.user && getUserById(req.session.user)
+            },
+            setDarkMode: (args: { darkMode: boolean }, req: Request) => {
+                if (!req.session.user) {
+                    throw new Error(ErrorMessages.AUTHENTICATION_FAILED)
+                }
+                return setDarkMode(req.session.user, args.darkMode)
             },
         },
         graphiql: true,

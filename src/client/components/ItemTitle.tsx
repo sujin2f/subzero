@@ -1,7 +1,3 @@
-/*
- * TimeLine - Item - Title
- */
-
 import React from 'react'
 
 type Props = {

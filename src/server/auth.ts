@@ -23,17 +23,21 @@ const authRouter = express.Router()
  * Otherwise, it redirects to the Google login
  */
 authRouter.get('/login', async (req, res) => {
-    if (isDev()) {
-        ;(req.session as Session).user = process.env.DEV_USER_ID
-        res.redirect('/')
-        return
-    }
+    try {
+        if (isDev()) {
+            ;(req.session as Session).user = process.env.DEV_USER_ID
+            res.redirect('/')
+            return
+        }
 
-    if ((req.session as Session).user) {
-        res.redirect('/')
+        if ((req.session as Session).user) {
+            res.redirect('/')
+        }
+        res.redirect(GoogleLoginUrl())
+        return
+    } catch (_) {
+        res.redirect('/auth/error')
     }
-    res.redirect(GoogleLoginUrl())
-    return
 })
 
 /**

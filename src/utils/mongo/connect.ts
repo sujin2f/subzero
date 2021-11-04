@@ -19,7 +19,6 @@ export const mongoConnect = async (): Promise<typeof mongoose> => {
             dbName,
         })
         .then((db) => {
-            console.log('🤩 Mongo DB connected')
             return db
         })
         .catch(() => {

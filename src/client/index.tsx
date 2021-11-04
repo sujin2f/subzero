@@ -8,8 +8,6 @@ import {
     Redirect,
 } from 'react-router-dom'
 import { Store } from 'src/client/store'
-
-import 'src/assets/styles/style.scss'
 import { Public } from './scenes'
 
 ReactDOM.render(
