@@ -1,7 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import * as serviceWorker from 'src/client/serviceWorker'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect,
+} from 'react-router-dom'
 import { Store } from 'src/client/store'
 
 import 'src/assets/styles/style.scss'
@@ -12,7 +17,8 @@ ReactDOM.render(
         <Router>
             <Store>
                 <Switch>
-                    <Route exact={true} path="/">
+                    <Redirect from="/#" to="/" />
+                    <Route exact={false} path="/">
                         <Public />
                     </Route>
                 </Switch>
