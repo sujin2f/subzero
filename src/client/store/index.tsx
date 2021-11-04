@@ -20,4 +20,6 @@ export {
     getItemsFail,
     closeRemovePopup,
     openRemovePopup,
+    setUser,
+    unsetUser,
 } from './actions'

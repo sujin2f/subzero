@@ -8,8 +8,10 @@ import {
     getItemsSuccess,
     getItemsInit,
     getItemsFail,
+    setUser,
+    unsetUser,
 } from 'src/client/store'
-import { Fn, Item } from 'src/types'
+import { Fn, Item, User } from 'src/types'
 
 export const useItems = (): Item[] => {
     const [{ items }, dispatch] = useContext(Context) as ContextType
@@ -20,7 +22,7 @@ export const useItems = (): Item[] => {
         }
         dispatch(getItemsInit())
         graphqlClient
-            .query<{ getItems: Item[] }>({
+            .query<{ getItems: Item[]; getUser?: User }>({
                 query: gql`
                     query {
                         getItems {
@@ -28,11 +30,21 @@ export const useItems = (): Item[] => {
                             expiration
                             title
                         }
+                        getUser {
+                            name
+                            email
+                            photo
+                        }
                     }
                 `,
             })
             .then((response) => {
                 dispatch(getItemsSuccess(response.data.getItems))
+                if (response.data.getUser) {
+                    dispatch(setUser(response.data.getUser))
+                } else {
+                    dispatch(unsetUser())
+                }
             })
             .catch(() => {
                 dispatch(getItemsFail())

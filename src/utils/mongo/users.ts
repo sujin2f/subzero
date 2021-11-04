@@ -31,6 +31,19 @@ export const getUserByEmail = async (email: string): Promise<User> => {
         })
 }
 
+export const getUserById = async (_id: string): Promise<User> => {
+    return await UsersModel.findOne({ _id })
+        .then((user) => {
+            if (!user) {
+                throw new Error('')
+            }
+            return user
+        })
+        .catch(() => {
+            throw new Error('')
+        })
+}
+
 export const getOrAddUser = async (
     name: string,
     email: string,

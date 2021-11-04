@@ -2,13 +2,12 @@
  * Login features endpoint
  */
 
-/* istanbul ignore file */
 import express from 'express'
 import { Session } from 'express-session'
 import { User } from 'src/types'
 import { isDev } from 'src/utils'
 import { getGoogleAccountFromCode, GoogleLoginUrl } from 'src/utils/google-api'
-import { getOrAddUser, getUserByEmail } from 'src/utils/mongo/users'
+import { getOrAddUser } from 'src/utils/mongo/users'
 
 declare module 'express-session' {
     interface Session {
@@ -25,12 +24,9 @@ const authRouter = express.Router()
  */
 authRouter.get('/login', async (req, res) => {
     if (isDev()) {
-        const devUser = await getUserByEmail(process.env.DEV_USER_EMAIL || '')
-        if (devUser) {
-            ;(req.session as Session).user = devUser._id
-            res.redirect('/')
-            return
-        }
+        ;(req.session as Session).user = process.env.DEV_USER_ID
+        res.redirect('/')
+        return
     }
 
     if ((req.session as Session).user) {
