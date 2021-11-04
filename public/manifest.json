@@ -1,6 +1,6 @@
 {
     "short_name": "SubZero",
-    "name": "Kitchen Tools",
+    "name": "Keep Your Groceries Fresh and Cool",
     "icons": [
         {
             "src": "favicon.ico",
@@ -8,8 +8,8 @@
             "type": "image/x-icon"
         }
     ],
-    "start_url": ".",
+    "start_url": "/",
     "display": "standalone",
-    "theme_color": "#000000",
-    "background_color": "#ffffff"
+    "theme_color": "#970000",
+    "background_color": "#cacad1"
 }
