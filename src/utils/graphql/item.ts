@@ -5,23 +5,27 @@ import {
     removeItem as removeMongoItem,
 } from 'src/utils/mongo/items'
 
-export const getItems = async (): Promise<Item[]> => {
-    return await getMongoItems().catch((e) => {
+export const getItems = async (userId?: string): Promise<Item[]> => {
+    return await getMongoItems(userId).catch((e) => {
         throw e
     })
 }
 
-export const createItem = async ({
-    title,
-    expiration,
-}: Item): Promise<Item> => {
-    return await createMongoItem(title, expiration).catch((e) => {
+export const createItem = async (
+    title: string,
+    expiration: string,
+    userId?: string,
+): Promise<Item> => {
+    return await createMongoItem(title, expiration, userId).catch((e) => {
         throw e
     })
 }
 
-export const removeItem = async (id: string): Promise<boolean> => {
-    return await removeMongoItem(id)
+export const removeItem = async (
+    id: string,
+    userId?: string,
+): Promise<boolean> => {
+    return await removeMongoItem(id, userId)
         .then(() => true)
         .catch((e) => {
             throw e

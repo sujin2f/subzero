@@ -5,10 +5,8 @@
 import React, { useContext } from 'react'
 
 import { useItems } from 'src/client/hooks'
-import { Context, ContextType } from 'src/client/store'
-import { openRemovePopup } from 'src/client/store/actions'
-import { ItemExpiration } from 'src/client/components/ItemExpiration'
-import { ItemTitle } from 'src/client/components/ItemTitle'
+import { Context, ContextType, openRemovePopup } from 'src/client/store'
+import { ItemExpiration, ItemTitle } from 'src/client/components'
 import { yyyyMmDdToDate } from 'src/utils'
 
 export const TimeLine = (): JSX.Element => {
@@ -30,8 +28,6 @@ export const TimeLine = (): JSX.Element => {
                     )
                     const classHurry =
                         remains < 15 ? 'timeline__item--button--hurry' : ''
-                    const classDead =
-                        remains < 0 ? 'timeline__item--button--dead' : ''
                     const evenRow = index % 2
 
                     return (
@@ -43,7 +39,7 @@ export const TimeLine = (): JSX.Element => {
                         >
                             <ItemTitle title={item.title} />
                             <button
-                                className={`timeline__item--button ${classHurry} ${classDead}`}
+                                className={`timeline__item--button ${classHurry}`}
                                 onClick={() =>
                                     dispatch(openRemovePopup(item._id))
                                 }

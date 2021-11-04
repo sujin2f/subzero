@@ -42,7 +42,7 @@
     height: 3rem;
     border: solid $line-size $primary-color;
     border-radius: 3rem;
-    background-color: $background-color;
+    background-color: white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -54,8 +54,4 @@
 
 .timeline__item--button--hurry {
     color: $primary-color;
-}
-
-.timeline__item--button--dead {
-    color: rgba($color: black, $alpha: 0.2);
 }

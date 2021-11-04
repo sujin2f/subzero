@@ -2,26 +2,66 @@ import 'module-alias/register'
 import ejs from 'ejs'
 import express, { Application, Response } from 'express'
 import path from 'path'
-import { baseDirDev, baseDirProd, bundles, isDev, publicDir } from 'src/utils'
-import { mongoConnect } from 'src/utils'
+import session from 'express-session'
+
+import {
+    baseDirDev,
+    baseDirProd,
+    bundles,
+    isDev,
+    publicDir,
+    mongoConnect,
+} from 'src/utils'
 import { apiRouter } from 'src/server/api'
+import { authRouter } from 'src/server/auth'
+import { ErrorMessages } from 'src/constants'
+
+declare module 'express-session' {
+    interface Session {
+        user?: string
+    }
+}
+
+const envPath = isDev()
+    ? undefined
+    : path.resolve(__dirname, '../', '../', '.env.production')
+require('dotenv').config({ path: envPath })
 
 const app: Application = express()
-const port: number = process.env.NODE_ENV === 'development' ? 8080 : 80 // default port to listen
-require('dotenv').config()
+const port: number = isDev() ? 8080 : 80 // default port to listen
+const MongoDBStore = require('connect-mongodb-session')(session)
+const store = new MongoDBStore({
+    uri: process.env.MONGO_URI,
+    collection: 'sessions',
+})
+
+store.on('error', (e: Error) => {
+    console.log(e)
+})
+
+app.use(
+    require('express-session')({
+        secret: process.env.SESSION_SECRET,
+        cookie: {
+            maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+        },
+        store,
+        // Boilerplate options, see:
+        // * https://www.npmjs.com/package/express-session#resave
+        // * https://www.npmjs.com/package/express-session#saveuninitialized
+        resave: true,
+        saveUninitialized: true,
+    }),
+)
 
 app.use('/api', apiRouter)
+app.use('/auth', authRouter)
 
 /**
  * Assets
  */
-app.get('/assets(/*)', (req, res) => {
-    const html = `${publicDir}/${req.url}`
-    res.sendFile(html)
-})
-
-app.get('/robots.txt', (_, res) => {
-    const html = `${publicDir}/robots.txt`
+app.get(/robots\.txt|manifest\.json|favicon\.ico$/, (req, res) => {
+    const html = `${publicDir}${req.url}`
     res.sendFile(html)
 })
 
@@ -30,7 +70,7 @@ app.get('/static(/*)', (req, res) => {
         const html = `${baseDirDev}${req.url}`
         res.sendFile(html)
     } else {
-        const html = `${baseDirProd}${req.url}`
+        const html = `${baseDirProd}/client/${req.url}`
         res.sendFile(html)
     }
 })
@@ -42,18 +82,14 @@ app.get('/static(/*)', (req, res) => {
  * @return {void}
  */
 export const showReact = async (res: Response): Promise<void> => {
-    if (!isDev()) {
-        res.sendFile(path.resolve(baseDirProd, 'index.html'))
-        return
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const filePath = path.resolve(publicDir, 'frontend.html')
+    const filePath = path.resolve(publicDir, 'index.ejs')
+    const bundleData = bundles()
     const html = await ejs
         .renderFile(filePath, {
-            bundles: [...bundles()],
+            js: bundleData.filter((value) => value.endsWith('.js')),
+            css: bundleData.filter((value) => value.endsWith('.css')),
         })
-        .catch((e) => console.error(e))
+        .catch((e) => console.error(ErrorMessages.EJS_FAILED, e))
 
     res.send(html)
 }
@@ -67,7 +103,6 @@ app.use(function (_, res) {
 
 // start the Express server
 app.listen(port, (): void => {
-    // tslint:disable-next-line: no-console
     console.log(`🤩 Server started at http://localhost:${port}`)
-    mongoConnect()
+    mongoConnect().catch(() => console.error(ErrorMessages.MONGO_FAILED))
 })

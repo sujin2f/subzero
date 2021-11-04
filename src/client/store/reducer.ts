@@ -1,28 +1,22 @@
 import {
-    HELLO,
     GET_ITEMS_INIT,
     GET_ITEMS_SUCCESS,
     GET_ITEMS_FAIL,
     OPEN_DELETE_POPUP,
     CLOSE_DELETE_POPUP,
+    SET_USER,
+    UNSET_USER,
 } from 'src/client/store/actions'
 import { Action, State } from 'src/types'
 
 export const initialState: State = {
-    hello: '',
+    user: undefined,
     items: undefined,
     removePopup: false,
 }
 
 export const reducer = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case HELLO: {
-            return {
-                ...state,
-                hello: action.hello,
-            }
-        }
-
         case GET_ITEMS_INIT: {
             return {
                 ...state,
@@ -55,6 +49,20 @@ export const reducer = (state: State = initialState, action: Action): State => {
             return {
                 ...state,
                 removePopup: false,
+            }
+        }
+
+        case SET_USER: {
+            return {
+                ...state,
+                user: action.user,
+            }
+        }
+
+        case UNSET_USER: {
+            return {
+                ...state,
+                user: undefined,
             }
         }
 
