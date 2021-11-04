@@ -13,7 +13,6 @@ import {
 } from 'src/client/components'
 
 import 'src/assets/styles/style.scss'
-import 'src/assets/styles/style-dark-mode.scss'
 
 export const Public = (): JSX.Element => {
     const [{ user, removePopup }] = useContext(Context) as ContextType
