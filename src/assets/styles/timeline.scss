@@ -31,10 +31,12 @@
 .timeline__item--title {
     font-weight: bold;
     grid-area: title;
+    background-color: $background-color;
 }
 
 .timeline__item--expiration {
     grid-area: expiration;
+    background-color: $background-color;
 }
 
 .timeline__item--button {

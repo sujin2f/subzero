@@ -12,8 +12,10 @@ export const Header = (): JSX.Element => {
         <Fragment>
             {!user && (
                 <div className="banner">
-                    <h1 className="banner__heading">Manage Your Groceries</h1>
-                    <p className="banner__description">Try out from below</p>
+                    <h1 className="banner__heading">SubZero</h1>
+                    <p className="banner__description">
+                        Keep Your Groceries Fresh and Cool
+                    </p>
                     <a className="login" href="/auth/login">
                         Login
                     </a>

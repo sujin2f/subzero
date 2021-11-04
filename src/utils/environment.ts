@@ -3,6 +3,7 @@
  */
 
 import path from 'path'
+import fs from 'fs'
 
 /**
  * Get if the current server is development server
@@ -21,6 +22,6 @@ export const bundles = (): string[] => {
     const manifest = isDev()
         ? path.resolve(baseDirDev, 'asset-manifest.json')
         : path.resolve(baseDirProd, 'client', 'asset-manifest.json')
-    const rawData = require(manifest)
-    return rawData.entrypoints
+    const raw = fs.readFileSync(manifest).toString()
+    return JSON.parse(raw).entrypoints
 }
