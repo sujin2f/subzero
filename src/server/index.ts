@@ -119,5 +119,7 @@ app.use((_, res) => {
 // start the Express server
 app.listen(port, (): void => {
     console.log(`🤩 Server started at http://localhost:${port}`)
-    mongoConnect().catch(() => console.error(ErrorMessages.MONGO_FAILED))
+    mongoConnect()
+        .then(() => console.log('🤩 Mongo DB connected'))
+        .catch(() => console.error(ErrorMessages.MONGO_FAILED))
 })

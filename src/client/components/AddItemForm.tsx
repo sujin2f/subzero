@@ -1,11 +1,7 @@
-/*
- * TimeLine Wrapper Component
- */
-
 import React, { useState, useRef, useEffect } from 'react'
 import { useCreateItem } from 'src/client/hooks'
 
-export const Form = (): JSX.Element => {
+export const AddItemForm = (): JSX.Element => {
     const [opened, updateOpened] = useState<boolean>(false)
     const formElement = useRef<HTMLFormElement>(null)
     const titleElement = useRef<HTMLInputElement>(null)
@@ -49,46 +45,51 @@ export const Form = (): JSX.Element => {
     }, [titleElement, opened])
 
     return (
-        <section className="input__wrapper">
+        <section className="form__wrapper form--add-item">
             {opened && (
-                <form
-                    ref={formElement}
-                    className="input"
-                    onSubmit={executeForm}
-                >
-                    <label htmlFor="name">Item Name</label>
+                <form ref={formElement} className="form" onSubmit={executeForm}>
+                    <label htmlFor="name" className="form__label">
+                        Item Name
+                    </label>
                     <input
                         id="name"
                         type="text"
-                        className="input__field"
+                        className="form__field"
                         ref={titleElement}
                         onKeyDown={onKeyDown}
                         onFocus={openForm}
                     />
-                    <label htmlFor="expiration">Expiration Date</label>
+                    <label htmlFor="expiration" className="form__label">
+                        Expiration Date
+                    </label>
                     <input
                         id="expiration"
                         type="date"
-                        className="input__field"
+                        className="form__field"
                         onKeyDown={onKeyDown}
                         ref={dateElement}
                     />
-                    <button onClick={closeForm} className="input__cancel">
-                        Cancel
-                    </button>
-                    <button className="input__execution" type="submit">
-                        Add Item
-                    </button>
+                    <div className="button__container">
+                        <button onClick={closeForm} className="button">
+                            Cancel
+                        </button>
+                        <button
+                            className="button button--primary"
+                            type="submit"
+                        >
+                            Add Item
+                        </button>
+                    </div>
                 </form>
             )}
             {!opened && (
                 <button
-                    className="input__button"
+                    className="form--add-item__trigger"
                     aria-label="Add item"
                     onClick={openForm}
                 >
-                    <div className="input__button__icon" />
-                    <div className="input__button__icon" />
+                    <div />
+                    <div />
                 </button>
             )}
         </section>

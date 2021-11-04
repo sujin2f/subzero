@@ -1,7 +1,3 @@
-/*
- * TimeLine - Item - Expiration
- */
-
 import React from 'react'
 
 type Props = {

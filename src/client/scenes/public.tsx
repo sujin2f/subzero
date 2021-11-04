@@ -4,17 +4,20 @@
 
 import React, { Fragment, useContext } from 'react'
 
-import { Form, Header, RemovePopup, TimeLine } from 'src/client/components'
 import { Context, ContextType } from 'src/client/store'
+import { PublicDark } from './public-dark'
+
+import { PublicLight } from './public-light'
 
 export const Public = (): JSX.Element => {
-    const [{ removePopup }] = useContext(Context) as ContextType
+    const [{ user }] = useContext(Context) as ContextType
+
     return (
         <Fragment>
-            {removePopup && <RemovePopup />}
-            <Header />
-            <Form />
-            <TimeLine />
+            {user?.photo && <link rel="preload" as="image" href={user.photo} />}
+
+            {user?.darkMode && <PublicDark />}
+            {!user?.darkMode && <PublicLight />}
         </Fragment>
     )
 }

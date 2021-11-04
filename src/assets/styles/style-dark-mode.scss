@@ -1,0 +1,13 @@
+$primary-color: #970000;
+$background-color: #0d1117;
+$line-size: 0.3rem;
+$light-border: #2e2e2e;
+$text-color: white;
+$form-field-background: #c5c5c5;
+
+$primary-button-text-color: $text-color;
+$form-field-text-color: black;
+
+.wrapper--dark-mode {
+    @import 'base';
+}

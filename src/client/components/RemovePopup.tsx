@@ -1,7 +1,3 @@
-/*
- * TimeLine Wrapper Component
- */
-
 import React, { useContext, useEffect, useRef } from 'react'
 
 import { useRemoveItem } from 'src/client/hooks'
@@ -34,24 +30,26 @@ export const RemovePopup = (): JSX.Element => {
     }
 
     return (
-        <div className="overlay">
+        <div className="overlay" onClick={() => dispatch(closeRemovePopup())}>
             <section className="modal">
                 <p>Do you really want to remove this item?</p>
-                <button
-                    onClick={() => dispatch(closeRemovePopup())}
-                    className="input__cancel"
-                    onKeyDown={onKeyDown}
-                >
-                    Cancel
-                </button>
-                <button
-                    className="input__execution"
-                    onClick={onDeleteClick}
-                    ref={submitButton}
-                    onKeyDown={onKeyDown}
-                >
-                    Remove Item
-                </button>
+                <div className="button__container">
+                    <button
+                        onClick={() => dispatch(closeRemovePopup())}
+                        className="button"
+                        onKeyDown={onKeyDown}
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        className="button button--primary"
+                        onClick={onDeleteClick}
+                        ref={submitButton}
+                        onKeyDown={onKeyDown}
+                    >
+                        Remove Item
+                    </button>
+                </div>
             </section>
         </div>
     )

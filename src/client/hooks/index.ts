@@ -34,6 +34,7 @@ export const useItems = (): Item[] => {
                             name
                             email
                             photo
+                            darkMode
                         }
                     }
                 `,
@@ -111,4 +112,27 @@ export const useRemoveItem = (): Fn<[string], void> => {
                 // Error Handling
             })
     }
+}
+
+export const useDarkMode = (user: User): Fn<[boolean], void> => {
+    const [, dispatch] = useContext(Context) as ContextType
+
+    const setDarkMode = (darkMode: boolean) => {
+        graphqlClient
+            .mutate({
+                mutation: gql`
+                mutation {
+                    setDarkMode(
+                        darkMode: ${darkMode}
+                    )
+                }
+            `,
+            })
+            .then(() => dispatch(setUser({ ...user, darkMode })))
+            .catch(() => {
+                // Error Handling
+            })
+    }
+
+    return setDarkMode
 }

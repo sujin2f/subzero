@@ -1,35 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700&display=swap');
 
 $primary-color: #970000;
-$background-color: #cacad1;
-$line-size: 6px;
+$background-color: #eaeaef;
+$line-size: 0.3rem;
+$light-border: #dddddd;
+$text-color: black;
+$form-field-background: #c5c5c5;
 
-html {
-    font-family: 'Ubuntu', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-weight: lighter;
-    font-size: 22px;
-    margin: 0;
-    padding: 0;
-    background: $background-color url('../images/dot.svg') repeat-y center
-        center;
-    background-size: $line-size;
-}
+$primary-button-text-color: $background-color;
+$form-field-text-color: $text-color;
 
-body {
-    margin: 0;
-    padding: 0;
-}
-
-html,
-body,
-div,
-section,
-button,
-input {
-    box-sizing: border-box;
-}
-
-@import 'header';
-@import 'timeline';
-@import 'input';
-@import 'remove-popup';
+@import 'base';

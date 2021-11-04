@@ -6,4 +6,5 @@ export enum ErrorMessages {
     EJS_FAILED = '🤬 Rending the .ejs file failed.',
     CANNOT_FIND_TOKEN = '🤬 Failed to get Google API token.',
     GOOGLE_ACCOUNT_FAILED = '🤬 Google account information (email or name) is missing.',
+    AUTHENTICATION_FAILED = '🤬 Please login.',
 }

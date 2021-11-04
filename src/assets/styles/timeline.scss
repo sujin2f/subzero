@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: calc(50vw - 1.5rem) 3rem calc(50vw - 1.5rem);
     align-items: center;
-    margin-bottom: 1rem;
+    margin-top: 1rem;
     grid-template-areas: 'title button expiration';
 
     .timeline__item--title {
@@ -44,7 +44,7 @@
     height: 3rem;
     border: solid $line-size $primary-color;
     border-radius: 3rem;
-    background-color: white;
+    background-color: $background-color;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,6 +52,7 @@
     font-size: 1.2rem;
     grid-area: button;
     cursor: pointer;
+    color: $text-color;
 }
 
 .timeline__item--button--hurry {
