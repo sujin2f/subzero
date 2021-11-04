@@ -1783,6 +1783,21 @@
     "@types/connect" "*"
     "@types/node" "*"
 
+"@types/bson@*":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@types/bson/-/bson-4.2.0.tgz#a2f71e933ff54b2c3bf267b67fa221e295a33337"
+  integrity sha512-ELCPqAdroMdcuxqwMgUpifQyRoTpyYCNr1V9xKyF40VsBobsj+BbWNRvwGchMgBPGqkw655ypkjj2MEF5ywVwg==
+  dependencies:
+    bson "*"
+
+"@types/connect-mongodb-session@^2.4.2":
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/@types/connect-mongodb-session/-/connect-mongodb-session-2.4.2.tgz#04ea3b143cbd25dd6fa9904696e1afe46ff3dba2"
+  integrity sha512-Fer+/SUi6ZtOPSsz3Js2YrUCO1KFDbxMWEIZHr5xAPMmEeXc0Owtna1im2qtgV+8R5D1Zqon+OTnvEKdqXAbjw==
+  dependencies:
+    "@types/express-session" "*"
+    "@types/mongodb" "^3.6.20"
+
 "@types/connect@*":
   version "3.4.35"
   resolved "https://registry.yarnpkg.com/@types/connect/-/connect-3.4.35.tgz#5fcf6ae445e4021d1fc2219a4873cc73a3bb2ad1"
@@ -1822,7 +1837,7 @@
     "@types/qs" "*"
     "@types/range-parser" "*"
 
-"@types/express-session@^1.17.4":
+"@types/express-session@*", "@types/express-session@^1.17.4":
   version "1.17.4"
   resolved "https://registry.yarnpkg.com/@types/express-session/-/express-session-1.17.4.tgz#97a30a35e853a61bdd26e727453b8ed314d6166b"
   integrity sha512-7cNlSI8+oOBUHTfPXMwDxF/Lchx5aJ3ho7+p9jJZYVg9dVDJFh3qdMXmJtRsysnvS+C6x46k9DRYmrmCkE+MVg==
@@ -1907,6 +1922,14 @@
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.2.tgz#ee771e2ba4b3dc5b372935d549fd9617bf345b8c"
   integrity sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==
+
+"@types/mongodb@^3.6.20":
+  version "3.6.20"
+  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.6.20.tgz#b7c5c580644f6364002b649af1c06c3c0454e1d2"
+  integrity sha512-WcdpPJCakFzcWWD9juKoZbRtQxKIMYF/JIAM4JrNHrMcnJL6/a2NWjXxW7fo9hxboxxkg+icff8d7+WIEvKgYQ==
+  dependencies:
+    "@types/bson" "*"
+    "@types/node" "*"
 
 "@types/node@*":
   version "16.11.6"
@@ -3294,7 +3317,7 @@ bser@2.1.1:
   dependencies:
     node-int64 "^0.4.0"
 
-bson@^4.2.2, bson@^4.5.2:
+bson@*, bson@^4.2.2, bson@^4.5.2:
   version "4.5.4"
   resolved "https://registry.yarnpkg.com/bson/-/bson-4.5.4.tgz#5f74f1e11f743ea8aec30b5e24bfddae82846873"
   integrity sha512-wIt0bPACnx8Ju9r6IsS2wVtGDHBr9Dxb+U29A1YED2pu8XOhS8aKjOnLZ8sxyXkPwanoK7iWWVhS1+coxde6xA==
