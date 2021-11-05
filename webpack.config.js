@@ -9,8 +9,15 @@ const config =
 
 config.entry = [path.resolve(__dirname, 'src', 'client', 'index.tsx')]
 
-if ('production' === process.env.NODE_ENV) {
-    config.output.path = path.resolve(__dirname, 'build', 'client')
+config.output.path = path.resolve(
+    __dirname,
+    '.build',
+    process.env.NODE_ENV,
+    'client',
+)
+
+if ('stage' === process.env.NODE_ENV) {
+    process.env.NODE_ENV = 'production'
 }
 
 module.exports = config
