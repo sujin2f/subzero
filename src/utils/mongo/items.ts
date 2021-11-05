@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 import { ErrorMessages } from 'src/constants'
 import { Item } from 'src/types'
+import { cache } from 'src/utils'
 
 const itemsSchema = new Schema({
     userId: {
@@ -21,12 +22,18 @@ const itemsSchema = new Schema({
 const ItemsModel = mongoose.model<Item>('item', itemsSchema)
 
 export const getItems = async (userId?: string): Promise<Item[]> => {
+    const cacheKey = `getItems-${userId}`
+    const cached = cache.get<Item[]>(cacheKey)
+    if (cached) {
+        return cached
+    }
     return await ItemsModel.find({ userId })
         .sort([['expiration', 1]])
         .then((items) => {
             if (!items) {
                 throw new Error(ErrorMessages.FIND_ITEM_FAILED)
             }
+            cache.set<Item[]>(cacheKey, items)
             return items
         })
         .catch(() => {
@@ -39,6 +46,9 @@ export const createItem = async (
     expiration: string,
     userId?: string,
 ): Promise<Item> => {
+    const cacheKey = `getItems-${userId}`
+    cache.del(cacheKey)
+
     const item = {
         userId,
         title,
@@ -55,6 +65,9 @@ export const removeItem = async (
     _id: string,
     userId?: string,
 ): Promise<boolean> => {
+    const cacheKey = `getItems-${userId}`
+    cache.del(cacheKey)
+
     const item = await ItemsModel.findOne({ _id })
     if (!item) {
         throw new Error(ErrorMessages.REMOVE_ITEM_FAILED)
