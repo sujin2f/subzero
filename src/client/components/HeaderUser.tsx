@@ -52,6 +52,9 @@ export const HeaderUser = (props: Props): JSX.Element => {
                                 <Fragment>Light mode</Fragment>
                             )}
                         </button>
+                        <a href="/" className="aside__menu__item">
+                            Reload
+                        </a>
                         <a href="/auth/logout" className="aside__menu__item">
                             Logout
                         </a>

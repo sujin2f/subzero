@@ -9,19 +9,24 @@ import fs from 'fs'
  * Get if the current server is development server
  * @return {boolean}
  */
-export const isDev = (): boolean => process.env.NODE_ENV === 'development'
-export const rootDir = path.resolve(__dirname, '../../')
+const rootDir =
+    process.env.NODE_ENV === 'development'
+        ? path.resolve(__dirname, '../../')
+        : path.resolve(__dirname, '../../../')
 export const publicDir = path.resolve(rootDir, 'public')
-export const baseDirDev = path.resolve(rootDir, 'dist')
-export const baseDirProd = path.resolve(rootDir, 'build')
+
+export const baseDir = path.resolve(
+    rootDir,
+    '.build',
+    process.env.NODE_ENV || '',
+)
+
 /**
  * Get the bundle folder
  * @return {string[]}
  */
 export const bundles = (): string[] => {
-    const manifest = isDev()
-        ? path.resolve(baseDirDev, 'asset-manifest.json')
-        : path.resolve(baseDirProd, 'client', 'asset-manifest.json')
+    const manifest = path.resolve(baseDir, 'client', 'asset-manifest.json')
     const raw = fs.readFileSync(manifest).toString()
     return JSON.parse(raw).entrypoints
 }
