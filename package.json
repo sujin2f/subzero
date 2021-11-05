@@ -1,7 +1,7 @@
 {
     "name": "subzero",
     "description": "Keep Your Groceries Fresh and Cool",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "license": "MIT",
     "dependencies": {
         "connect-mongodb-session": "^3.1.1",
