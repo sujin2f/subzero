@@ -5,7 +5,6 @@
 import express from 'express'
 import { Session } from 'express-session'
 import { User } from 'src/types'
-import { isDev } from 'src/utils'
 import { getGoogleAccountFromCode, GoogleLoginUrl } from 'src/utils/google-api'
 import { getOrAddUser } from 'src/utils/mongo/users'
 
@@ -24,7 +23,7 @@ const authRouter = express.Router()
  */
 authRouter.get('/login', async (req, res) => {
     try {
-        if (isDev()) {
+        if (process.env.NODE_ENV !== 'production') {
             ;(req.session as Session).user = process.env.DEV_USER_ID
             res.redirect('/')
             return

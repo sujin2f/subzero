@@ -1,23 +1,24 @@
-/* tslint:disable: no-console */
-import 'module-alias/register'
+/* eslint-disable no-console */
 import ejs from 'ejs'
+import moduleAlias from 'module-alias'
 import express, { Application, Response } from 'express'
 import path from 'path'
 import session from 'express-session'
 import ConnectMongoDBSession from 'connect-mongodb-session'
 import { config as detEnvConfig } from 'dotenv'
 
-import {
-    baseDirDev,
-    baseDirProd,
-    bundles,
-    isDev,
-    publicDir,
-    mongoConnect,
-} from 'src/utils'
-import { apiRouter } from 'src/server/api'
-import { authRouter } from 'src/server/auth'
-import { ErrorMessages } from 'src/constants'
+import { baseDir } from '../utils/environment'
+// Alias
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'stage') {
+    moduleAlias.addAlias('src', baseDir)
+    moduleAlias()
+}
+
+/* eslint-disable import/first */
+import { bundles, publicDir, mongoConnect } from '../utils'
+import { apiRouter } from './api'
+import { authRouter } from './auth'
+import { ErrorMessages } from '../constants'
 
 declare module 'express-session' {
     interface Session {
@@ -26,14 +27,26 @@ declare module 'express-session' {
 }
 
 const app: Application = express()
-const port: number = isDev() ? 8080 : 80 // default port to listen
+let port: number = 8080
+switch (process.env.NODE_ENV) {
+    case 'production':
+        port = 80
+        break
+    case 'stage':
+        port = 8000
+        break
+    default:
+        port = 8080
+        break
+}
 
 /**
  * .env
  */
-const envPath = isDev()
-    ? undefined
-    : path.resolve(__dirname, '../', '../', '.env.production')
+const envPath =
+    process.env.NODE_ENV !== 'production'
+        ? undefined
+        : path.resolve(__dirname, '../', '../', '../', '.env.production')
 detEnvConfig({ path: envPath })
 
 /**
@@ -81,13 +94,7 @@ app.get(
 )
 
 app.get('/static(/*)', (req, res) => {
-    if (isDev()) {
-        const html = `${baseDirDev}${req.url}`
-        res.sendFile(html)
-    } else {
-        const html = `${baseDirProd}/client/${req.url}`
-        res.sendFile(html)
-    }
+    res.sendFile(`${baseDir}/client${req.url}`)
 })
 
 /**
