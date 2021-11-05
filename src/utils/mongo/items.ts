@@ -59,7 +59,7 @@ export const removeItem = async (
     if (!item) {
         throw new Error(ErrorMessages.REMOVE_ITEM_FAILED)
     }
-    if (userId && (item as unknown as { userId: string }).userId !== userId) {
+    if (userId && item.userId && item.userId.toString() !== userId.toString()) {
         throw new Error(ErrorMessages.REMOVE_ITEM_FAILED)
     }
     const result = await ItemsModel.deleteOne({ _id })

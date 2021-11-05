@@ -15,11 +15,11 @@ export const Store = ({ children }: ReactChildrenProps): React.ReactElement => {
 }
 
 export {
-    getItemsInit,
     getItemsSuccess,
-    getItemsFail,
     closeRemovePopup,
     openRemovePopup,
     setUser,
     unsetUser,
+    socketUserReady,
+    socketItemsReady,
 } from './actions'

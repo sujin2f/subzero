@@ -2,6 +2,7 @@ export type Item = {
     _id: string
     title: string
     expiration: string
+    userId?: string
 }
 
 export type User = {

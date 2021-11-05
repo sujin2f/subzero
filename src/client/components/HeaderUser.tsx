@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react'
 
 import { User } from 'src/types'
-import { useDarkMode } from '../hooks'
+import { setDarkMode } from 'src/client/hooks'
 
 type Props = {
     user: User
@@ -9,7 +9,6 @@ type Props = {
 
 export const HeaderUser = (props: Props): JSX.Element => {
     const [menuOpened, changeMenuOpened] = useState<boolean>(false)
-    const setDarkMode = useDarkMode(props.user)
 
     return (
         <aside className="aside">

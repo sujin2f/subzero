@@ -1,22 +1,12 @@
 import { Action, Item, User } from 'src/types'
 
-export const GET_ITEMS_INIT = 'sujin/v1/GET_ITEMS_INIT'
 export const GET_ITEMS_SUCCESS = 'sujin/v1/GET_ITEMS_SUCCESS'
-export const GET_ITEMS_FAIL = 'sujin/v1/GET_ITEMS_FAIL'
 export const OPEN_DELETE_POPUP = 'sujin/v1/OPEN_DELETE_POPUP'
 export const CLOSE_DELETE_POPUP = 'sujin/v1/CLOSE_DELETE_POPUP'
 export const SET_USER = 'sujin/v1/SET_USER'
 export const UNSET_USER = 'sujin/v1/UNSET_USER'
-
-/**
- * Init get items
- * @returns {Partial<Action>}
- */
-export const getItemsInit = (): Partial<Action> => {
-    return {
-        type: GET_ITEMS_INIT,
-    }
-}
+export const SOCKET_USER_READY = 'sujin/v1/SOCKET_USER_READY'
+export const SOCKET_ITEMS_READY = 'sujin/v1/SOCKET_ITEMS_READY'
 
 /**
  * Get items success
@@ -27,16 +17,6 @@ export const getItemsSuccess = (items: Item[]): Partial<Action> => {
     return {
         type: GET_ITEMS_SUCCESS,
         items,
-    }
-}
-
-/**
- * Get items fail
- * @returns {Partial<Action>}
- */
-export const getItemsFail = (): Partial<Action> => {
-    return {
-        type: GET_ITEMS_FAIL,
     }
 }
 
@@ -79,5 +59,17 @@ export const setUser = (user: User): Partial<Action> => {
 export const unsetUser = (): Partial<Action> => {
     return {
         type: UNSET_USER,
+    }
+}
+
+export const socketUserReady = (): Partial<Action> => {
+    return {
+        type: SOCKET_USER_READY,
+    }
+}
+
+export const socketItemsReady = (): Partial<Action> => {
+    return {
+        type: SOCKET_ITEMS_READY,
     }
 }
