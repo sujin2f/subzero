@@ -13,9 +13,11 @@ import {
 } from 'src/client/components'
 
 import 'src/assets/styles/style.scss'
+import { useUser } from '../hooks'
 
 export const Public = (): JSX.Element => {
-    const [{ user, removePopup }] = useContext(Context) as ContextType
+    const user = useUser()
+    const [{ removePopup }] = useContext(Context) as ContextType
     const classPublic = !user ? 'wrapper--public' : ''
     const classDarkMode = user?.darkMode ? 'wrapper--dark-mode' : ''
 

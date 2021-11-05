@@ -12,18 +12,18 @@
             property="og:image"
             content="https://subzero.sujinc.com/thumbnail.png"
         />
-
         <base href="/" />
-        <link rel="icon" type="image/png" href="/favicon.ico" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
         <link rel="manifest" href="/manifest.json" />
+        <% css.forEach(function(bundle){ %>
+        <link rel="stylesheet" type="text/css" href="/<%= bundle %>" />
+        <% }); %>
     </head>
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <div id="root" role="main"></div>
         <% js.forEach(function(bundle){ %>
         <script src="/<%= bundle %>"></script>
-        <% }); %> <% css.forEach(function(bundle){ %>
-        <link rel="stylesheet" type="text/css" href="/<%= bundle %>" />
         <% }); %>
     </body>
 </html>

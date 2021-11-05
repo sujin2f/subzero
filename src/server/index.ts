@@ -1,10 +1,10 @@
-/* eslint-disable no-console */
-import ejs from 'ejs'
 import moduleAlias from 'module-alias'
-import express, { Application, Response } from 'express'
+import express, { Application, NextFunction, Request, Response } from 'express'
 import path from 'path'
 import session from 'express-session'
 import ConnectMongoDBSession from 'connect-mongodb-session'
+import http from 'http'
+import { Server } from 'socket.io'
 import { config as detEnvConfig } from 'dotenv'
 
 import { baseDir } from '../utils/environment'
@@ -15,11 +15,13 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'stage') {
 }
 
 /* eslint-disable import/first */
-import { bundles, publicDir, mongoConnect } from '../utils'
-import { apiRouter } from './api'
-import { authRouter } from './auth'
+import { mongoConnect } from '../utils'
+import { authRouter } from './routes/auth'
 import { ErrorMessages } from '../constants'
+import { staticRouter } from './routes/static'
+import { socketListener } from './socket'
 
+/* tslint:disable no-console */
 declare module 'express-session' {
     interface Session {
         user?: string
@@ -27,6 +29,7 @@ declare module 'express-session' {
 }
 
 const app: Application = express()
+const server = http.createServer(app)
 let port: number = 8080
 switch (process.env.NODE_ENV) {
     case 'production':
@@ -52,79 +55,52 @@ detEnvConfig({ path: envPath })
 /**
  * Session
  */
-if (process.env.SESSION_SECRET && process.env.MONGO_URI) {
-    const MongoDBStore = ConnectMongoDBSession(session)
-    const store = new MongoDBStore({
-        uri: process.env.MONGO_URI,
-        collection: 'sessions',
-    })
+const MongoDBStore = ConnectMongoDBSession(session)
+const store = new MongoDBStore({
+    uri: process.env.MONGO_URI || '',
+    collection: 'sessions',
+})
 
-    store.on('error', (e: Error) => {
-        console.log(e)
-    })
+store.on('error', (e: Error) => {
+    console.log(e)
+})
 
-    app.use(
-        session({
-            secret: process.env.SESSION_SECRET || '',
-            cookie: {
-                maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-            },
-            store,
-            // Boilerplate options, see:
-            // * https://www.npmjs.com/package/express-session#resave
-            // * https://www.npmjs.com/package/express-session#saveuninitialized
-            resave: true,
-            saveUninitialized: true,
-        }),
-    )
-}
-
-app.use('/api', apiRouter)
-app.use('/auth', authRouter)
-
-/**
- * Assets
- */
-app.get(
-    /robots\.txt|manifest\.json|favicon\.ico|thumbnail\.png$/,
-    (req, res) => {
-        const html = `${publicDir}${req.url}`
-        res.sendFile(html)
+const sessionMiddleware = session({
+    secret: process.env.SESSION_SECRET || '',
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
     },
-)
-
-app.get('/static(/*)', (req, res) => {
-    res.sendFile(`${baseDir}/client${req.url}`)
+    store,
+    // Boilerplate options, see:
+    // * https://www.npmjs.com/package/express-session#resave
+    // * https://www.npmjs.com/package/express-session#saveuninitialized
+    resave: true,
+    saveUninitialized: true,
 })
+app.use(sessionMiddleware)
 
 /**
- * Show react frontend
- *
- * @param {Response} res
- * @return {void}
+ * Socket.io
  */
-export const showReact = async (res: Response): Promise<void> => {
-    const filePath = path.resolve(publicDir, 'index.ejs')
-    const bundleData = bundles()
-    const html = await ejs
-        .renderFile(filePath, {
-            js: bundleData.filter((value) => value.endsWith('.js')),
-            css: bundleData.filter((value) => value.endsWith('.css')),
-        })
-        .catch((e) => console.error(ErrorMessages.EJS_FAILED, e))
+const io = new Server(server)
+io.use((socket, next) => {
+    return sessionMiddleware(
+        socket.request as Request,
+        {} as Response,
+        next as NextFunction,
+    )
+})
 
-    res.send(html)
-}
+io.on('connection', socketListener)
 
 /**
- * React frontend
+ * Router
  */
-app.use((_, res) => {
-    showReact(res)
-})
+app.use('/auth', authRouter)
+app.use('/', staticRouter)
 
 // start the Express server
-app.listen(port, (): void => {
+server.listen(port, (): void => {
     console.log(`🤩 Server started at http://localhost:${port}`)
     mongoConnect()
         .then(() => console.log('🤩 Mongo DB connected'))

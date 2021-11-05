@@ -1,12 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { useCreateItem } from 'src/client/hooks'
+import { createItem } from 'src/client/hooks'
 
 export const AddItemForm = (): JSX.Element => {
     const [opened, updateOpened] = useState<boolean>(false)
     const formElement = useRef<HTMLFormElement>(null)
     const titleElement = useRef<HTMLInputElement>(null)
     const dateElement = useRef<HTMLInputElement>(null)
-    const createItem = useCreateItem()
 
     const openForm = () => {
         updateOpened(true)
@@ -34,7 +33,7 @@ export const AddItemForm = (): JSX.Element => {
             // @todo Error
             return
         }
-        createItem({ _id: '', title, expiration })
+        createItem(title, expiration)
         titleElement.current!.value = ''
         dateElement.current!.value = ''
         closeForm(e)
