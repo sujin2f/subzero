@@ -68,7 +68,7 @@ store.on('error', (e: Error) => {
 const sessionMiddleware = session({
     secret: process.env.SESSION_SECRET || '',
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+        maxAge: 1000 * 60 * 60 * 24 * 365 * 100, // 100 years
     },
     store,
     // Boilerplate options, see:
