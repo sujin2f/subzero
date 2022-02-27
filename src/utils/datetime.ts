@@ -45,3 +45,16 @@ export const yyyyMmDdToDate = (yyyyMmDd: string): Date => {
 
     return date
 }
+
+export const getNextMidnight = (): number => {
+    const now = new Date()
+    const midnight = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 1,
+        0,
+        0,
+        0,
+    )
+    return midnight.getTime()
+}
